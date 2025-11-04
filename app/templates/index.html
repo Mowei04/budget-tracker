@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Budget Tracker{% endblock %}
+{% block content %}
+  <h1>Dashboard</h1>
+
+  <section aria-labelledby="stats-h">
+    <h2 id="stats-h">Summary</h2>
+    {% if incomes|length == 0 and expenditures|length == 0 %}
+      <p>No incomes or expenditures yet. Start by adding some records.</p>
+    {% else %}
+      <ul>
+        <li>Total income: {{ "%.2f"|format(total_income) }}</li>
+        <li>Total expenditure: {{ "%.2f"|format(total_expenditure) }}</li>
+        <li>Difference: {{ "%.2f"|format(diff) }}</li>
+      </ul>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="goal-h">
+    <h2 id="goal-h">Goal</h2>
+    {% if goal %}
+      <p>Goal: {{ goal.name or 'My Goal' }} — {{ "%.2f"|format(goal.value) }}</p>
+      {% if progress is not none %}
+        <div aria-label="Goal progress" role="progressbar"
+             aria-valuemin="0" aria-valuemax="100"
+             aria-valuenow="{{ progress|round(2) }}">
+          {{ progress|round(1) }}%
+        </div>
+      {% endif %}
+    {% else %}
+      <p>No goal set yet. <a href="{{ url_for('goal') }}">Create one</a>.</p>
+    {% endif %}
+  </section>
+{% endblock %}

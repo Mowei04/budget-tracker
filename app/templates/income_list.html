@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Incomes{% endblock %}
+{% block content %}
+<h1>Incomes</h1>
+
+<form action="" method="post" name="income" novalidate>
+  {{ form.hidden_tag() }}
+  <label for="{{ form.name.id }}">Name</label>
+  {{ form.name(id=form.name.id, required=True, maxlength=120) }}
+  {% for e in form.name.errors %}<span class="err">[{{ e }}]</span>{% endfor %}
+
+  <label for="{{ form.amount.id }}">Amount</label>
+  {{ form.amount(id=form.amount.id, required=True, min="0", step="0.01") }}
+  {% for e in form.amount.errors %}<span class="err">[{{ e }}]</span>{% endfor %}
+
+  {{ form.submit() }}
+</form>
+
+<table role="table">
+  <thead><tr><th>Name</th><th>Amount</th><th>Actions</th></tr></thead>
+  <tbody>
+  {% for it in items %}
+    <tr>
+      <td>{{ it.name }}</td>
+      <td>{{ "%.2f"|format(it.amount) }}</td>
+      <td>
+        <a href="{{ url_for('edit_income', item_id=it.id) }}">Edit</a>
+        <form action="{{ url_for('delete_income', item_id=it.id) }}" method="post" style="display:inline">
+          <button type="submit" aria-label="Delete {{ it.name }}">Delete</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Budget Tracker{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</head>
+<body>
+<header role="banner">
+  <nav aria-label="Primary">
+    <a href="{{ url_for('main.index') }}">Home</a>
+    <a href="{{ url_for('main.incomes') }}">Incomes</a>
+    <a href="{{ url_for('main.expenditures') }}">Expenditures</a>
+    <a href="{{ url_for('main.goal') }}">Goal</a>
+  </nav>
+</header>
+
+<main id="content" tabindex="-1">
+  {% include "_messages.html" %}
+  {% block content %}{% endblock %}
+</main>
+
+<footer role="contentinfo">
+  <p>&copy; Budget Tracker</p>
+</footer>
+
+<script src="{{ url_for('main.static', filename='main.js') }}"></script>
+</body>
+</html>

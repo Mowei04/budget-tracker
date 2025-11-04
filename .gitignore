@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# SQLite DB
+*.db
+
+# Flask migrations cache
+instance/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
