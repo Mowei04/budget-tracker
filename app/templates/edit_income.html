@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Edit Income{% endblock %}
+{% block content %}
+<h1>Edit Income</h1>
+<p><a href="{{ url_for('main.incomes') }}">Back to incomes</a></p>
+<form action="" method="post" name="income" novalidate>
+  {{ form.hidden_tag() }}
+  <label for="{{ form.name.id }}">Name</label>
+  {{ form.name(id=form.name.id, required=True, maxlength=120) }}
+  {% for e in form.name.errors %}<span class="err">[{{ e }}]</span>{% endfor %}
+
+  <label for="{{ form.amount.id }}">Amount</label>
+  {{ form.amount(id=form.amount.id, required=True, min="0", step="0.01") }}
+  {% for e in form.amount.errors %}<span class="err">[{{ e }}]</span>{% endfor %}
+
+  {{ form.submit(class_="primary") }}
+</form>
+{% endblock %}

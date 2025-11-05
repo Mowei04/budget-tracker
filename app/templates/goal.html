@@ -16,8 +16,9 @@
 </form>
 
 {% if item %}
-<form action="{{ url_for('delete_goal') }}" method="post">
-  <button type="submit">Delete goal</button>
+<form action="{{ url_for('main.delete_goal') }}" method="post">
+  {{ delete_form.hidden_tag() }}
+  {{ delete_form.submit(class_="link-button", aria_label="Delete goal") }}
 </form>
 {% endif %}
 {% endblock %}
