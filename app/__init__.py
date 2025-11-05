@@ -3,6 +3,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_wtf import CSRFProtect
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -10,6 +11,8 @@ migrate = Migrate()
 def create_app():
     app = Flask(__name__)
 
+    csrf = CSRFProtect()
+    app.config["SECRET_KEY"] = "dev-secret-please-change"
     basedir = os.path.abspath(os.path.dirname(__file__))        # .../coursework1/app
     project_root = os.path.dirname(basedir)
     db_path = os.path.join(project_root, "data.db")
@@ -20,6 +23,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
+    csrf.init_app(app)
     # 导入模型，确保迁移能发现表结构（避免循环依赖，放在这里）
     from . import models  # noqa
 
