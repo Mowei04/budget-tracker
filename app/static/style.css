@@ -1,100 +1,87 @@
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  margin: 0;
-  background: #f7f7f7;
-  color: #222;
-}
-
-header,
-footer {
-  background: #1f2933;
-  color: #fff;
-  padding: 1rem;
-}
-
-nav a {
-  color: #fff;
-  margin-right: 1rem;
-  text-decoration: none;
-}
-
-nav a:hover,
-nav a:focus {
-  text-decoration: underline;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  background: #f8f9fa;
+  color: #1f2937;
 }
 
 main {
-  padding: 1.5rem;
+  width: 100%;
 }
 
-form {
-  display: grid;
-  gap: 0.5rem;
-  max-width: 420px;
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: #0d6efd;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+.navbar .nav-link.active,
+.navbar .nav-link:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 0.15rem;
+  text-underline-offset: 0.35rem;
+  font-weight: 600;
+}
+
+.alerts {
   margin-bottom: 1.5rem;
 }
 
-input,
-button {
-  font: inherit;
-  padding: 0.5rem;
+.card-title + p.text-muted {
+  margin-top: -0.25rem;
 }
 
-button.primary,
-input[type="submit"],
-button[type="submit"] {
-  background: #2563eb;
-  color: #fff;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
+.summary-card {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-button.primary:hover,
-button.primary:focus,
-input[type="submit"]:hover,
-input[type="submit"]:focus {
-  background: #1d4ed8;
-}
-
-.link-button {
-  background: none;
-  border: none;
-  color: #2563eb;
-  cursor: pointer;
-  padding: 0;
-  text-decoration: underline;
+.progress {
+  height: 1.25rem;
+  border-radius: 999px;
+  background-color: #e9ecef;
 }
 
 .err {
-  color: #b91c1c;
+  color: #b42318;
   font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+.table td,
+.table th {
+  vertical-align: middle;
 }
 
-thead {
-  background: #e5e7eb;
+.delete-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-decoration: underline;
+  font-weight: 600;
 }
 
-td,
-th {
-  padding: 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid #d1d5db;
+.delete-link,
+.delete-link:visited {
+  color: #b42318;
 }
 
-ul[role="status"] {
-  list-style: none;
-  padding: 0.5rem 1rem;
-  background: #ecfdf5;
-  border: 1px solid #34d399;
-  color: #065f46;
+.delete-link:hover,
+.delete-link:focus-visible {
+  color: #7a0f11;
 }
 
-ul[role="status"] .error {
-  color: #b91c1c;
+.delete-link:focus-visible {
+  outline: 3px solid rgba(220, 53, 69, 0.5);
+  outline-offset: 2px;
 }

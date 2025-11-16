@@ -1,18 +1,31 @@
-% extends "base.html" %}
+{% extends "base.html" %}
 {% block title %}Edit Income{% endblock %}
 {% block content %}
-<h1>Edit Income</h1>
-<p><a href="{{ url_for('main.incomes') }}">Back to incomes</a></p>
-<form action="" method="post" name="income" novalidate>
-  {{ form.hidden_tag() }}
-  <label for="{{ form.name.id }}">Name</label>
-  {{ form.name(id=form.name.id, required=True, maxlength=120) }}
-  {% for e in form.name.errors %}<span class="err">[{{ e }}]</span>{% endfor %}
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <p class="text-uppercase text-muted mb-1">Update entry</p>
+        <h1 class="fw-bold h3">Edit Income</h1>
+        <p><a class="link-offset-2" href="{{ url_for('main.incomes') }}">&larr; Back to incomes</a></p>
+        <form action="" method="post" name="income" novalidate>
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            <label for="{{ form.name.id }}" class="form-label">Name<span class="text-danger">*</span></label>
+            {{ form.name(id=form.name.id, required=True, maxlength=120, class_='form-control') }}
+            {% for e in form.name.errors %}<div class="err" role="alert">{{ e }}</div>{% endfor %}
+          </div>
 
-  <label for="{{ form.amount.id }}">Amount</label>
-  {{ form.amount(id=form.amount.id, required=True, min="0", step="0.01") }}
-  {% for e in form.amount.errors %}<span class="err">[{{ e }}]</span>{% endfor %}
+          <div class="mb-3">
+            <label for="{{ form.amount.id }}" class="form-label">Amount<span class="text-danger">*</span></label>
+            {{ form.amount(id=form.amount.id, required=True, min="0", step="0.01", class_='form-control') }}
+            {% for e in form.amount.errors %}<div class="err" role="alert">{{ e }}</div>{% endfor %}
+          </div>
 
-  {{ form.submit(class_="primary") }}
-</form>
+          {{ form.submit(class_='btn btn-primary') }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
