@@ -1,24 +1,45 @@
 {% extends "base.html" %}
 {% block title %}Goal{% endblock %}
 {% block content %}
-<h1>Goal</h1>
-<form action="" method="post" name="goal" novalidate>
-  {{ form.hidden_tag() }}
-  <label for="{{ form.name.id }}">Name (optional)</label>
-  {{ form.name(id=form.name.id, maxlength=120) }}
-  {% for e in form.name.errors %}<span class="err">[{{ e }}]</span>{% endfor %}
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between flex-wrap gap-3 align-items-center mb-3">
+          <div>
+            <p class="text-uppercase text-muted mb-1">Plan ahead</p>
+            <h1 class="fw-bold mb-0">Goal</h1>
+          </div>
+          <span class="badge text-bg-primary">Keep saving!</span>
+        </div>
 
-  <label for="{{ form.value.id }}">Value</label>
-  {{ form.value(id=form.value.id, required=True, min="0", step="0.01") }}
-  {% for e in form.value.errors %}<span class="err">[{{ e }}]</span>{% endfor %}
+        <form action="" method="post" name="goal" novalidate>
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            <label for="{{ form.name.id }}" class="form-label">Name (optional)</label>
+            {{ form.name(id=form.name.id, maxlength=120, class_='form-control', placeholder='e.g. Emergency fund') }}
+            {% for e in form.name.errors %}<div class="err" role="alert">{{ e }}</div>{% endfor %}
+          </div>
 
-  {{ form.submit() }}
-</form>
+          <div class="mb-3">
+            <label for="{{ form.value.id }}" class="form-label">Value<span class="text-danger">*</span></label>
+            {{ form.value(id=form.value.id, required=True, min="0", step="0.01", class_='form-control', placeholder='0.00') }}
+            {% for e in form.value.errors %}<div class="err" role="alert">{{ e }}</div>{% endfor %}
+          </div>
 
-{% if item %}
-<form action="{{ url_for('main.delete_goal') }}" method="post">
-  {{ delete_form.hidden_tag() }}
-  {{ delete_form.submit(class_="link-button", aria_label="Delete goal") }}
-</form>
-{% endif %}
+          <div class="d-flex flex-wrap gap-2">
+            {{ form.submit(class_='btn btn-primary') }}
+          </div>
+        </form>
+
+        {% if item %}
+          <form action="{{ url_for('main.delete_goal') }}" method="post" class="d-inline">
+            {{ delete_form.hidden_tag() }}
+            {{ delete_form.submit(class_='btn btn-outline-danger mt-3', aria_label='Delete goal') }}
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

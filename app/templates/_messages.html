@@ -1,9 +1,17 @@
 {% with messages = get_flashed_messages(with_categories=True) %}
   {% if messages %}
-    <ul role="status" aria-live="polite">
+    <div class="alerts" role="status" aria-live="polite">
       {% for category, message in messages %}
-        <li class="{{ category }}">{{ message }}</li>
+        {% set variant = {
+          'error': 'alert-danger',
+          'warning': 'alert-warning',
+          'success': 'alert-success',
+          'info': 'alert-info'
+        }[category] if category in ['error', 'warning', 'success', 'info'] else 'alert-primary' %}
+        <div class="alert {{ variant }} shadow-sm" role="alert">
+          {{ message }}
+        </div>
       {% endfor %}
-    </ul>
+    </div>
   {% endif %}
 {% endwith %}

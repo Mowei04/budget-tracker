@@ -1,41 +1,79 @@
 {% extends "base.html" %}
 {% block title %}Expenditures{% endblock %}
 {% block content %}
-<h1>Expenditures</h1>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+  <div>
+    <p class="text-uppercase text-muted mb-1">Monitor your spending</p>
+    <h1 class="fw-bold">Expenditures</h1>
+  </div>
+  <a class="btn btn-outline-secondary" href="{{ url_for('main.incomes') }}">View incomes</a>
+</div>
 
-<form action="" method="post" name="expenditure" novalidate>
-  {{ form.hidden_tag() }}
-  <label for="{{ form.name.id }}">Name</label>
-  {{ form.name(id=form.name.id, required=True, maxlength=120) }}
-  {% for e in form.name.errors %}<span class="err">[{{ e }}]</span>{% endfor %}
+<div class="row g-4">
+  <div class="col-12 col-lg-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h2 class="card-title h4">Add expenditure</h2>
+        <p class="text-muted">Capture each spend to keep your tracking accurate.</p>
+        <form action="" method="post" name="expenditure" novalidate class="mt-3">
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            <label for="{{ form.name.id }}" class="form-label">Name<span class="text-danger">*</span></label>
+            {{ form.name(id=form.name.id, required=True, maxlength=120, class_='form-control', placeholder='e.g. Utilities') }}
+            {% for e in form.name.errors %}<div class="err" role="alert">{{ e }}</div>{% endfor %}
+          </div>
 
-  <label for="{{ form.amount.id }}">Amount</label>
-  {{ form.amount(id=form.amount.id, required=True, min="0", step="0.01") }}
-  {% for e in form.amount.errors %}<span class="err">[{{ e }}]</span>{% endfor %}
+          <div class="mb-3">
+            <label for="{{ form.amount.id }}" class="form-label">Amount<span class="text-danger">*</span></label>
+            {{ form.amount(id=form.amount.id, required=True, min="0", step="0.01", class_='form-control', placeholder='0.00') }}
+            {% for e in form.amount.errors %}<div class="err" role="alert">{{ e }}</div>{% endfor %}
+          </div>
 
-  {{ form.submit() }}
-</form>
-
-{% if items %}
-<table role="table">
-  <thead><tr><th>Name</th><th>Amount</th><th>Actions</th></tr></thead>
-  <tbody>
-  {% for it in items %}
-    <tr>
-      <td>{{ it.name }}</td>
-      <td>{{ "%.2f"|format(it.amount) }}</td>
-      <td>
-        <a href="{{ url_for('main.edit_expenditure', item_id=it.id) }}">Edit</a>
-        <form action="{{ url_for('main.delete_expenditure', item_id=it.id) }}" method="post" style="display:inline">
-          {{ delete_forms[it.id].hidden_tag() }}
-          {{ delete_forms[it.id].submit(id='delete-ex-' ~ it.id, class_="link-button", aria_label="Delete " ~ it.name) }}
+          {{ form.submit(class_='btn btn-primary w-100') }}
         </form>
-      </td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
-{% else %}
-  <p>No expenditure records yet.</p>
-{% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-8">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+          <h2 class="card-title h4 mb-0">Expenditure history</h2>
+          <span class="badge text-bg-light">{{ items|length }} entries</span>
+        </div>
+        {% if items %}
+          <div class="table-responsive">
+            <table class="table align-middle" role="table">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col" class="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for it in items %}
+                <tr>
+                  <td>{{ it.name }}</td>
+                  <td class="fw-semibold">{{ "%.2f"|format(it.amount) }}</td>
+                  <td class="text-end">
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('main.edit_expenditure', item_id=it.id) }}">Edit</a>
+                    <form action="{{ url_for('main.delete_expenditure', item_id=it.id) }}" method="post" class="d-inline">
+                      {{ delete_forms[it.id].hidden_tag() }}
+                      {{ delete_forms[it.id].submit(id='delete-ex-' ~ it.id, class_='btn btn-link text-danger delete-link', aria_label='Delete ' ~ it.name) }}
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p class="mb-0 text-muted">No expenditure records yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

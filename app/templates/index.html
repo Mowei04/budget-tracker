@@ -1,34 +1,71 @@
 {% extends "base.html" %}
 {% block title %}Dashboard · Budget Tracker{% endblock %}
 {% block content %}
-  <h1>Dashboard</h1>
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+    <div>
+      <p class="text-uppercase text-muted mb-1">Overview</p>
+      <h1 class="fw-bold">Dashboard</h1>
+    </div>
+    <a class="btn btn-outline-primary" href="{{ url_for('main.goal') }}">Update Goal</a>
+  </div>
 
-  <section aria-labelledby="stats-h">
-    <h2 id="stats-h">Summary</h2>
-    {% if incomes|length == 0 and expenditures|length == 0 %}
-      <p>No incomes or expenditures yet. Start by adding some records.</p>
-    {% else %}
-      <ul>
-        <li>Total income: {{ "%.2f"|format(total_income) }}</li>
-        <li>Total expenditure: {{ "%.2f"|format(total_expenditure) }}</li>
-        <li>Difference: {{ "%.2f"|format(diff) }}</li>
-      </ul>
-    {% endif %}
+  <section aria-labelledby="stats-h" class="mb-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 id="stats-h" class="card-title h4">Summary</h2>
+        {% if incomes|length == 0 and expenditures|length == 0 %}
+          <p class="mb-0">No incomes or expenditures yet. Start by adding some records.</p>
+        {% else %}
+          <div class="row row-cols-1 row-cols-md-3 g-4 mt-1">
+            <div class="col">
+              <div class="summary-card p-3 rounded-3 bg-primary-subtle text-primary-emphasis h-100">
+                <p class="mb-1 fw-semibold">Total income</p>
+                <p class="display-6 mb-0">{{ "%.2f"|format(total_income) }}</p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="summary-card p-3 rounded-3 bg-danger-subtle text-danger-emphasis h-100">
+                <p class="mb-1 fw-semibold">Total expenditure</p>
+                <p class="display-6 mb-0">{{ "%.2f"|format(total_expenditure) }}</p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="summary-card p-3 rounded-3 bg-success-subtle text-success-emphasis h-100">
+                <p class="mb-1 fw-semibold">Difference</p>
+                <p class="display-6 mb-0">{{ "%.2f"|format(diff) }}</p>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
   </section>
 
-  <section aria-labelledby="goal-h">
-    <h2 id="goal-h">Goal</h2>
-    {% if goal %}
-      <p>Goal: {{ goal.name or 'My Goal' }} — {{ "%.2f"|format(goal.value) }}</p>
-      {% if progress is not none %}
-        <div aria-label="Goal progress" role="progressbar"
-             aria-valuemin="0" aria-valuemax="100"
-             aria-valuenow="{{ progress|round(2) }}">
-          {{ progress|round(1) }}%
+  <section aria-labelledby="goal-h" class="mb-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-between gap-3 align-items-center mb-3">
+          <div>
+            <p class="text-uppercase text-muted mb-1">Savings goal</p>
+            <h2 id="goal-h" class="card-title h4 mb-0">Goal</h2>
+          </div>
+          <a class="btn btn-primary" href="{{ url_for('main.goal') }}">Manage goal</a>
         </div>
-      {% endif %}
-    {% else %}
-      <p>No goal set yet. <a href="{{ url_for('main.goal') }}">Create one</a>.</p>
-    {% endif %}
+        {% if goal %}
+          <p class="lead mb-3">
+            {{ goal.name or 'My Goal' }} &mdash;
+            <span class="fw-semibold">{{ "%.2f"|format(goal.value) }}</span>
+          </p>
+          {% if progress is not none %}
+            <div class="progress" role="progressbar" aria-label="Goal progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ progress|round(2) }}">
+              <div class="progress-bar bg-success" style="width: {{ [progress, 100]|min }}%"></div>
+            </div>
+            <p class="mt-2 mb-0">{{ progress|round(1) }}% complete</p>
+          {% endif %}
+        {% else %}
+          <p class="mb-0">No goal set yet. <a href="{{ url_for('main.goal') }}" class="link-offset-2">Create one</a>.</p>
+        {% endif %}
+      </div>
+    </div>
   </section>
 {% endblock %}
